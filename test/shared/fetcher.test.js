@@ -368,6 +368,26 @@ describe('fetcher', function() {
       timeoutSpy.should.be.calledWith(sinon.match({ timeout: 1000 }))
     });
 
+    it("should set cache:false when needsFetch option is specified", function(done) {
+      var needsFetchSpy = sinon.spy();
+      var Test = BaseModel.extend({ fetch: needsFetchSpy });
+      Test.id = 'NeedsFetch';
+      addClassMapping.add('NeedsFetch', Test);
+      
+      var fetchSpec = {
+        model: {
+          model: 'NeedsFetch',
+          needsFetch: true,
+          params: { id: 1 }
+        }
+      };
+
+      fetcher.fetch(fetchSpec, {}, function(err, results) { });
+      done();
+
+      needsFetchSpy.should.be.calledWith(sinon.match({ cache: false }))
+    });
+
     it("should set default timeout to 0 in options to model fetch", function(done) {
       var timeoutSpy = sinon.spy();
       var Test = BaseModel.extend({
