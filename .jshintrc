@@ -1,11 +1,15 @@
 {
+	"strict": false,
   "undef": true,
   "eqnull": true,
+  "unused": false,
   "asi": true,
   "expr" : true,
   "node": true,
   "browser": true,
+  "mocha": true,
   "globals": {
-    "rendr": false
+    "rendr": false,
+    "expect": false
   }
 }
