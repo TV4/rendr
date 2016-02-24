@@ -175,7 +175,6 @@ Fetcher.prototype.fetchFromApi = function(spec, options, callback) {
     model.fetch({
       headers: options.headers || {},
       timeout: options.timeout || 0,
-      cache: !spec.needsFetch,
       data: spec.params,
       success: function(model, body) {
         callback(null, model);
