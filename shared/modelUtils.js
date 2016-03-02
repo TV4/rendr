@@ -13,8 +13,9 @@ var typePath = {
 
 module.exports = ModelUtils;
 
-function ModelUtils(entryPath) {
+function ModelUtils(entryPath, dependencies) {
   this.entryPath = entryPath;
+  this._dependencies = dependencies;
   this._classMap = {};
 }
 
@@ -78,7 +79,9 @@ ModelUtils.prototype.fetchConstructor = function(type, path, callback) {
   }
 };
 
-ModelUtils.prototype._require = require;
+ModelUtils.prototype._require = function (id) {
+  return this._dependencies ? this._dependencies[id] : require(id);
+};
 
 ModelUtils.prototype._requireAMD = require;
 

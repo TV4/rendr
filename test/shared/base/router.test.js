@@ -142,6 +142,15 @@ describe('BaseRouter', function () {
       });
     });
 
+    describe('getRouteBuilder', function() {
+      it('should return provided builder if available', function () {
+        var func = function (){};
+        var router = new BaseRouter({entryPath: 'MyAppRootPath/', routeBuilder: func });
+        var builder = router.getRouteBuilder();
+        builder.should.equal(func);
+      });
+    });
+
     describe('route', function() {
       var action, handler, getAction, getHandler;
 

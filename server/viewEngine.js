@@ -70,7 +70,7 @@ ViewEngine.prototype.getViewHtml = function getViewHtml(viewPath, locals, app) {
   // Pass in the app.
   locals.app = app;
   name = viewPath.substr(viewPath.indexOf(basePath) + basePath.length + 1);
-  View = BaseView.getView(name, app.options.entryPath);
+  View = BaseView.getView(name, app.options.entryPath, null, app.options.views);
   view = new View(locals);
   return view.getHtml();
 };

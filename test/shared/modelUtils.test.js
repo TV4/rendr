@@ -13,6 +13,14 @@ describe('modelUtils', function () {
     modelUtils,
     ExtendedModel = BaseModel.extend({ idAttribute: 'idAttr' });
 
+  it('should use dependency map if supplied', function () {
+    var instance = {};
+    function Foo(){ return instance }
+    var modelUtils = new ModelUtils('', { 'app/models/test_model': Foo });
+    var created = modelUtils.getModel('test_model');
+    instance.should.equal(created);
+  });
+
   beforeEach(function () {
     modelUtils = new ModelUtils(entryPath);
   });

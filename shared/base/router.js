@@ -78,7 +78,7 @@ _.extend(BaseRouter.prototype, Backbone.Events, {
 
   loadController: function(controllerName) {
     var controllerPath = this.getControllerPath(controllerName);
-    return require(controllerPath);
+    return this.options.controllers ? this.options.controllers[controllerPath] : require(controllerPath);
   },
 
   getAction: function(route) {
@@ -107,7 +107,7 @@ _.extend(BaseRouter.prototype, Backbone.Events, {
   },
 
   getRouteBuilder: function() {
-    return require(this.options.paths.routes);
+    return this.options.routeBuilder || require(this.options.paths.routes);
   },
 
   buildRoutes: function() {

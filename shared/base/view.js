@@ -435,8 +435,12 @@ module.exports = BaseView = Backbone.View.extend({
  * -------------
  */
 
-BaseView.getView = function(viewName, entryPath, callback) {
+BaseView.getView = function(viewName, entryPath, callback, views) {
   var viewPath;
+
+  function getDependency(id) {
+    return views ? views[id] : require(id);
+  }
 
   if (!entryPath) entryPath = '';
 
@@ -447,10 +451,10 @@ BaseView.getView = function(viewName, entryPath, callback) {
     if (typeof define != 'undefined') {
       requireAMD([viewPath], callback);
     } else {
-      callback(require(viewPath));
+      callback(getDependency(viewPath));
     }
   } else {
-    return require(viewPath);
+    return getDependency(viewPath);
   }
 };
 
@@ -505,7 +509,7 @@ BaseView.getChildViews = function(app, parentView, callback) {
         options = _.extend(options, results);
         BaseView.getView(viewName, app.options.entryPath, function(ViewClass) {
           BaseView.createChildView(ViewClass, options, $el, parentView, cb);
-        });
+        }, app.options.views);
       });
     } else {
       cb(null, null);

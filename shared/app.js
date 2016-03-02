@@ -7,11 +7,9 @@ var Backbone = require('backbone'),
     _ = require('underscore'),
     Fetcher = require('./fetcher'),
     ModelUtils = require('./modelUtils'),
-    isServer = (typeof window === 'undefined'),
-    ClientRouter;
+    isServer = (typeof window === 'undefined');
 
 if (!isServer) {
-  ClientRouter = require('app/router');
   Backbone.$ = window.$ || require('jquery');
 }
 
@@ -42,7 +40,7 @@ module.exports = Backbone.Model.extend({
       entryPath =  '';
     }
 
-    this.modelUtils = this.options.modelUtils || new ModelUtils(entryPath);
+    this.modelUtils = this.options.modelUtils || new ModelUtils(entryPath, this.options.models);
 
     /**
      * On the server-side, you can access the Express request, `req`.
@@ -64,15 +62,16 @@ module.exports = Backbone.Model.extend({
      * Initialize the `ClientRouter` on the client-side.
      */
     if (!isServer) {
-      if (this.options.ClientRouter) {
-        ClientRouter = this.options.ClientRouter;
-      }
+      var clientRouterPath = 'app/router';
+      var ClientRouter = this.options.ClientRouter || require(clientRouterPath);
 
       new ClientRouter({
         app: this,
         entryPath: entryPath,
         appViewClass: this.getAppViewClass(),
-        rootPath: attributes.rootPath
+        rootPath: attributes.rootPath,
+        routeBuilder: this.options.routeBuilder,
+        controllers: this.options.controllers
       });
     }
 

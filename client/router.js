@@ -265,7 +265,7 @@ ClientRouter.prototype.getRenderCallback = function(route) {
       _router.renderView();
 
       _router.trigger('action:end', route, firstRender);
-    });
+    }, this.app.options.views);
   }.bind(this);
 };
 
@@ -294,5 +294,5 @@ ClientRouter.prototype.getView = function(key, entryPath, callback) {
     }
 
     callback(View);
-  });
+  }, this.app.options.views);
 };
