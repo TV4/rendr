@@ -41,7 +41,8 @@ var BaseModel = Backbone.Model.extend({
    * Instance method to store in the modelStore.
    */
   store: function() {
-    if (this.id !== undefined && this.app && this.app.fetcher) {
+    if (this.id !== undefined && this.options && this.options.writeToCache &&
+      this.app && this.app.fetcher) {
       this.app.fetcher.modelStore.set(this);
     }
   }
